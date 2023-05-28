@@ -1,0 +1,15 @@
+const express=require("express")
+const router=express.Router()
+const {registerUser,getloginUser,getUserDetails,getAllUsers, makeAdmin, deleteUser, updatePassword, updateProfile}=require("../controllers/userController")
+const{isAuthenticatedUser, isUserAdmin}=require("../middleware/auth")
+
+router.route("/register").post(registerUser)
+router.route("/login").get(getloginUser)
+router.route("/me").get(isAuthenticatedUser,getUserDetails)
+router.route("/users").get(isAuthenticatedUser,isUserAdmin,getAllUsers)
+router.route("/roleUpdate/:_id").patch(isAuthenticatedUser,isUserAdmin,makeAdmin)
+router.route("/delete/:_id").put(isAuthenticatedUser,isUserAdmin,deleteUser)
+router.route("/update/:_id").patch(isAuthenticatedUser,isUserAdmin,updatePassword)
+router.route("/profile/:_id").put(isAuthenticatedUser,updateProfile)
+// router.route("/myTrail").get(welcome)
+module.exports=router
